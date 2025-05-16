@@ -1,8 +1,15 @@
 <script setup>
+import TodoNav from "./components/TodoNav.vue";
+import TodoAll from "./components/TodoAll.vue";
+import TodoInput from "./components/TodoInput.vue";
 </script>
 
 <template>
-  <h1 class="text-2xl">TaskFlow</h1>
+  <div class="max-w-3xl mx-auto px-4">
+    <TodoNav />
+    <TodoInput />
+    <TodoAll />
+  </div>
 </template>
 
 <style scoped>
