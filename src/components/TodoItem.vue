@@ -11,7 +11,7 @@ const props = defineProps(["task"]);
 <template>
   <div
     :class="[
-      'px-6 py-4 border-2 rounded-2xl hover:border-purple-500 transition-colors duration-300',
+      'px-4 py-4 border-2 rounded-2xl hover:border-purple-500 transition-colors duration-300',
       task.isDone ? 'bg-gray-100 text-black' : '',
     ]"
   >
@@ -22,22 +22,24 @@ const props = defineProps(["task"]);
           v-model="task.isDone"
           class="accent-purple-500 border-2 rounded-full h-6 w-6"
         />
-        <Label :for="task.title" :class="[task.isDone ? 'line-through' : '']">{{
-          task.title
-        }}</Label>
+        <Label :for="task.title" :class="[task.isDone ? 'line-through' : '']">
+          {{ task.title }}
+        </Label>
       </div>
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-1">
         <TodoEdit :task="task" />
-        <button class="hover:cursor-pointer">
-          <Trash :size="16" color="red" />
+        <button
+          class="hover:bg-gray-200 group rounded-full p-1.5 hover:cursor-pointer"
+        >
+          <Trash :size="15" class="text-gray-500 group-hover:text-red-500" />
         </button>
       </div>
     </div>
     <hr class="my-3" />
     <div class="flex items-center justify-between">
-      <div class="flex items-center space-x-3 text-sm text-muted-background">
+      <div class="flex items-center space-x-2 text-gray-600">
         <Calendar :size="14" />
-        <span>{{ task.date }}</span>
+        <span class="text-[13px]">{{ task.date }}</span>
       </div>
       <Badge class="bg-yellow-100 text-yellow-800">{{ task.priority }}</Badge>
     </div>

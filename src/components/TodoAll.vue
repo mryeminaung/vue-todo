@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import TodoItem from "./TodoItem.vue";
-import { Badge } from "@/components/ui/badge";
+import TodoEmpty from "./TodoEmpty.vue";
 
 const tasks = ref([
   {
@@ -29,29 +29,10 @@ const tasks = ref([
 </script>
 
 <template>
-  <div class="my-4 space-y-3">
-    <div class="flex items-center space-x-3 font-bold">
-      <Badge class="py-1.5 rounded-full px-4 bg-purple-600 text-[14px]">
-        All
-        <Badge class="ml-2 rounded-full bg-purple-500 text-[12px]">4</Badge>
-      </Badge>
-      <Badge
-        class="py-1.5 rounded-full px-4 text-black hover:bg-purple-200 text-[14px] bg-gray-100"
-      >
-        Active
-        <Badge class="ml-2 rounded-full bg-gray-100 text-black text-[12px]">
-          2
-        </Badge>
-      </Badge>
-      <Badge
-        class="py-1.5 rounded-full px-4 text-black hover:bg-purple-200 bg-gray-100 text-[14px]"
-      >
-        Completed
-        <Badge class="ml-2 rounded-full bg-gray-100 text-black text-[12px]">
-          2
-        </Badge>
-      </Badge>
-    </div>
+  <div v-if="!tasks">
+    <TodoEmpty title="No tasks yet" />
+  </div>
+  <div class="my-7 space-y-3">
     <TodoItem v-for="task in tasks" :key="task.id" :task="task" />
   </div>
 </template>
