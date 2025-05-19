@@ -3,19 +3,46 @@ import { Badge } from "@/components/ui/badge";
 import TodoAll from "./TodoAll.vue";
 import TodoActive from "./TodoActive.vue";
 import TodoCompleted from "./TodoCompleted.vue";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { CalendarArrowDown, CalendarArrowUp } from "lucide-vue-next";
 import TodoInput from "./TodoInput.vue";
+import { useTodoStore } from "@/stores/todo";
+
+const todo = useTodoStore();
 
 const currentTab = ref("TodoAll");
 
 const tabs = { TodoAll, TodoActive, TodoCompleted };
 
+const allTaskCount = computed(() => {
+  return todo.tasks.length;
+});
+
+const completedTasksCount = computed(() => {
+  return todo.tasks.filter((task) => task.isDone).length;
+});
+
+const activeTasksCount = computed(() => {
+  return todo.tasks.filter((task) => !task.isDone).length;
+});
+
 // Refactored: Tab list for v-for rendering
 const tabList = [
-  { key: "TodoAll", label: "All", count: 4 },
-  { key: "TodoActive", label: "Active", count: 2 },
-  { key: "TodoCompleted", label: "Completed", count: 2 },
+  {
+    key: "TodoAll",
+    label: "All",
+    count: allTaskCount,
+  },
+  {
+    key: "TodoActive",
+    label: "Active",
+    count: activeTasksCount,
+  },
+  {
+    key: "TodoCompleted",
+    label: "Completed",
+    count: completedTasksCount,
+  },
 ];
 
 const setCurrentTab = (tab) => {
@@ -50,6 +77,8 @@ const activeTab = (tab) => {
         </Badge>
       </Badge>
     </div>
+
+    <!-- sort tasks by their due date -->
     <div class="flex items-center justify-end mb-5">
       <div class="flex items-center space-x-2">
         <p>Sort By:</p>
@@ -68,6 +97,7 @@ const activeTab = (tab) => {
       </div>
     </div>
     <TodoInput />
+    <!-- currentTab -> All, Active, Completed -->
     <component :is="tabs[currentTab]"></component>
   </div>
 </template>

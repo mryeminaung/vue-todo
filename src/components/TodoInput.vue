@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-vue-next";
 import { v4 as uuidv4 } from "uuid";
-import { onMounted, onUpdated, reactive, ref } from "vue";
+import { computed, reactive } from "vue";
 import { Calendar as CalendarIcon } from "lucide-vue-next";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -19,10 +19,9 @@ import {
   today,
 } from "@internationalized/date";
 import { toDate } from "reka-ui/date";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useTodoStore } from "@/stores/todo";
 
 const newTask = reactive({
-  id: "",
   title: "",
   date: today(getLocalTimeZone()),
   priority: "low",
@@ -39,9 +38,16 @@ const taskDueDate = (date) => {
   return df.format(toDate(date));
 };
 
-const handleForm = (event) => {
-  newTask.id = uuidv4();
-  console.log("hit");
+const todo = useTodoStore();
+
+const handleForm = () => {
+  todo.addTask(newTask);
+
+  // reset the form
+  newTask.title = "";
+  newTask.date = today(getLocalTimeZone());
+  newTask.priority = "low";
+  newTask.isDone = false;
 };
 </script>
 
